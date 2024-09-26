@@ -93,7 +93,7 @@ void sellProduct() {
 }
 
 void loadProducts() {
-    FILE *file = fopen("C:/Users/vesh4/Documents/testing/products.txt", "rb");
+    FILE *file = fopen("C:/Users/vesh4/Documents/testing/products.txt", "r");
     if (file == NULL) {
         printf("No product data found. Starting fresh.\n");
         return;
@@ -108,7 +108,7 @@ void loadProducts() {
 }
 
 void saveProducts() {
-    FILE *file = fopen("C:/Users/vesh4/Documents/testing/products.txt", "ab"); // Append new products
+    FILE *file = fopen("C:/Users/vesh4/Documents/testing/products.txt", "a"); // Append new products
     if (file == NULL) {
         printf("Error opening file for writing.\n");
         return;

@@ -44,7 +44,7 @@ int loginUser() {
 }
 
 void loadUsers() {
-    FILE *file = fopen("C:/Users/vesh4/Documents/testing/usersinfo.txt", "rb");  // Open in read binary mode
+    FILE *file = fopen("./usersinfo.txt", "r");  // Open in read binary mode
     if (file == NULL) {
         printf("No user data found. Starting fresh.\n");
         return;
@@ -59,7 +59,7 @@ void loadUsers() {
 }
 
 void saveUsers() {
-    FILE *file = fopen("C:/Users/vesh4/Documents/testing/usersinfo.txt", "ab");  // Append mode to add new user data
+    FILE *file = fopen("./usersinfo.txt", "a");  // Append mode to add new user data
     if (file == NULL) {
         printf("Error opening file for writing.\n");
         return;
