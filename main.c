@@ -1,77 +1,93 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <curses.h>
 #include "user_management.h"
 #include "product_management.h"
 
-// Forward declarations
+// Forward declaration
 void postLoginMenu();
 
 void mainMenu() {
     int choice;
-    while (1) {
-        printf("Welcome to the Online Retail Shop!\n");
-        printf("1. Register\n");
-        printf("2. Login\n");
-        printf("3. Exit\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
+    initscr(); // Initialize the screen
+    noecho();  // Don't echo input characters
+    cbreak();  // Disable line buffering
+    keypad(stdscr, TRUE); // Enable special keys like arrows
 
+    while (1) {
+        clear();
+        mvprintw(1, 1, "Welcome to the Online Retail Shop!");
+        mvprintw(3, 1, "1. Register");
+        mvprintw(4, 1, "2. Login");
+        mvprintw(5, 1, "3. Exit");
+        mvprintw(7, 1, "Enter your choice: ");
+        refresh();
+
+        choice = getch();
+        
         switch (choice) {
-            case 1:
+            case '1':
+                clear();
                 registerUser();
                 break;
-            case 2:
+            case '2':
+                clear();
                 if (loginUser()) {
-                    postLoginMenu(); // Call the function for the next menu after successful login
+                    postLoginMenu();
                 }
                 break;
-            case 3:
-                exit(0);
+            case '3':
+                endwin(); // End the curses mode
+                return;
             default:
-                printf("Invalid choice! Please try again.\n");
+                mvprintw(9, 1, "Invalid choice! Please try again.");
+                refresh();
+                getch(); // Wait for user to acknowledge
         }
     }
 }
 
 void postLoginMenu() {
     int choice;
+
     while (1) {
-        printf("\nPost Login Menu\n");
-        printf("1. View Products\n");
-        printf("2. Add Product\n");
-        printf("3. Buy Product\n");
-        printf("4. Sell Product\n");
-        printf("5. Logout\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
+        clear();
+        mvprintw(1, 1, "Post Login Menu");
+        mvprintw(3, 1, "1. View Products");
+        mvprintw(4, 1, "2. Add Product");
+        mvprintw(5, 1, "3. Buy Product");
+        mvprintw(6, 1, "4. Sell Product");
+        mvprintw(7, 1, "5. Logout");
+        mvprintw(9, 1, "Enter your choice: ");
+        refresh();
+
+        choice = getch();
 
         switch (choice) {
-            case 1:
-                viewProducts(); // View available products
+            case '1':
+                clear();
+                viewProducts();
+                getch(); // Wait to allow user to read products
                 break;
-            case 2:
-                addProduct(); // Add a new product (both buyer and seller can access this)
+            case '2':
+                clear();
+                addProduct();
+                getch(); // Wait to allow user to acknowledge
                 break;
-            case 3:
-                buyProduct(); // Buy a product
+            case '3':
+                clear();
+                buyProduct();
+                getch();
                 break;
-            case 4:
-                sellProduct(); // Sell a product
+            case '4':
+                clear();
+                sellProduct();
+                getch();
                 break;
-            case 5:
+            case '5':
                 return; // Log out and go back to main menu
             default:
-                printf("Invalid choice! Please try again.\n");
+                mvprintw(11, 1, "Invalid choice! Please try again.");
+                refresh();
+                getch();
         }
     }
-}
-
-int main() {
-    loadUsers();
-    loadProducts();
-    mainMenu();
-    saveUsers();
-    saveProducts();
-    return 0;
 }
